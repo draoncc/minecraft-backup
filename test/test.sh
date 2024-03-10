@@ -255,7 +255,7 @@ test-backup-spaces-in-directory () {
 
 test-backup-no-compression () {
   TIMESTAMP="$(date +%F_%H-%M-%S --date="2021-01-01")"
-  ./backup.sh -a "none" -e "" -i "$TEST_TMP/server/world" -o "$TEST_TMP/backups" -s "$SCREEN_TMP" -f "$TIMESTAMP"
+  ./backup.sh -a "none" -i "$TEST_TMP/server/world" -o "$TEST_TMP/backups" -s "$SCREEN_TMP" -f "$TIMESTAMP"
   check-backup "$TIMESTAMP.tar" 
 }
 

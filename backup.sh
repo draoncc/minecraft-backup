@@ -207,7 +207,7 @@ else
   QUIET=""
 fi
 
-if [[ "$COMPRESSION_FILE_EXTENSION" == "." ]]; then
+if [[ "$COMPRESSION_FILE_EXTENSION" == "." ]] || [[ "$COMPRESSION_ALGORITHM" == "none" ]]; then
   COMPRESSION_FILE_EXTENSION=""
 fi
 
