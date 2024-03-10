@@ -9,6 +9,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
@@ -91,12 +95,12 @@ jobs:
           version: latest
       - name: ghcr.io login
         run: |
-          echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Run Buildx
         run: |
           docker buildx build \
           --pull \
           --push \
           --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64 \
-          --tag ghcr.io/nicolaschan/minecraft-backup:${GITHUB_REF#refs/*/} \
-          --tag ghcr.io/nicolaschan/minecraft-backup:latest .
+          --tag ghcr.io/${{ github.repository_owner }}/minecraft-backup:${GITHUB_REF#refs/*/} \
+          --tag ghcr.io/${{ github.repository_owner }}/minecraft-backup:latest .
