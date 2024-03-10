@@ -50,7 +50,7 @@ This will show chat messages (`-c`) and save a backup of `/home/user/server/worl
 
 Command line options:
 ```text
--a    Compression algorithm (default: gzip)
+-a    Compression algorithm (default: gzip). Set to "none" for no compression
 -c    Enable chat messages
 -d    Delete method: thin (default), sequential, none
 -e    Compression file extension, exclude leading "." (default: gz)

@@ -13,7 +13,7 @@ SERVER_WORLDS=() # Server world directory
 BACKUP_DIRECTORY="" # Directory to save backups in
 MAX_BACKUPS=128 # -1 indicates unlimited
 DELETE_METHOD="thin" # Choices: thin, sequential, none; sequential: delete oldest; thin: keep last 24 hourly, last 30 daily, and monthly (use with 1 hr cron interval)
-COMPRESSION_ALGORITHM="gzip" # Leave empty for no compression
+COMPRESSION_ALGORITHM="gzip" # Set to "none" for no compression
 COMPRESSION_FILE_EXTENSION=".gz" # Leave empty for no compression; Precede with a . (for example: ".gz")
 COMPRESSION_LEVEL=3 # Passed to the compression algorithm
 ENABLE_CHAT_MESSAGES=false # Tell players in Minecraft chat about backup status
@@ -50,7 +50,7 @@ while getopts 'a:cd:e:f:hH:i:l:m:o:p:qr:s:t:u:vw:x' FLAG; do
     f) TIMESTAMP=$OPTARG ;;
     h) echo "Minecraft Backup"
        echo "Repository: https://github.com/nicolaschan/minecraft-backup"
-       echo "-a    Compression algorithm (default: gzip)"
+       echo "-a    Compression algorithm (default: gzip). Set to \"none\" for no compression"
        echo "-c    Enable chat messages"
        echo "-d    Delete method: thin (default), sequential, none"
        echo "-e    Compression file extension, exclude leading \".\" (default: gz)"
@@ -499,7 +499,7 @@ do-backup () {
 
     case $COMPRESSION_ALGORITHM in
       # No compression
-      "") tar -cf "$ARCHIVE_PATH" "${SERVER_WORLDS[@]}"
+      "none") tar -cf "$ARCHIVE_PATH" "${SERVER_WORLDS[@]}"
         ;;
       # With compression
       *) tar -cf - "${SERVER_WORLDS[@]}" | $COMPRESSION_ALGORITHM -cv -"$COMPRESSION_LEVEL" - > "$ARCHIVE_PATH" 2>> /dev/null

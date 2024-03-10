@@ -50,7 +50,7 @@ assert-equals-directory () {
   fi
   if [ -d "$1" ]; then
     for FILE in "$1"/*; do
-      assert-equals-directory "$FILE" "$2/${FILE##$1}"
+      assert-equals-directory "$FILE" "$2/${FILE##"$1"}"
     done
   else
     assertEquals "$(cat "$1")" "$(cat "$2")"
@@ -255,7 +255,7 @@ test-backup-spaces-in-directory () {
 
 test-backup-no-compression () {
   TIMESTAMP="$(date +%F_%H-%M-%S --date="2021-01-01")"
-  ./backup.sh -a "" -e "" -i "$TEST_TMP/server/world" -o "$TEST_TMP/backups" -s "$SCREEN_TMP" -f "$TIMESTAMP"
+  ./backup.sh -a "none" -e "" -i "$TEST_TMP/server/world" -o "$TEST_TMP/backups" -s "$SCREEN_TMP" -f "$TIMESTAMP"
   check-backup "$TIMESTAMP.tar" 
 }
 
